@@ -1,0 +1,11 @@
+# This file defines who should review and approve changes to this repo
+#
+# Code owners are automatically requested for review when someone opens a pull
+# request that modifies code that they own.
+
+# See https://help.github.com/articles/about-codeowners/
+
+*      @camelotls/platform @camelotls/customer-operations-support
+
+# This should always go at the bottom so that only IT can change it
+.github/CODEOWNERS        @mkrakowitzer @cgsextgit @camelotls/platform @camelotls/customer-operations-support
