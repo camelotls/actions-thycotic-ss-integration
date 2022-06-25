@@ -1,0 +1,16 @@
+---
+# Thycotic Secret Server integration gh action
+name: 'Thycotic SS integration'
+description: 'Secret management using Thycotic SS API'
+inputs:
+  json_in:
+    description: 'Secret server input params in json format'
+    required: false
+outputs:
+  json_out:
+    description: 'Secret server json result'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.json_in }}
