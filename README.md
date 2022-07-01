@@ -21,7 +21,7 @@ Please refer to the Thycotic Secret Server API before using this action.
 ```yaml
   - name: Get secret field
     id: get_secret_field
-    uses: actions/actions-thycotic-ss-integration@v1
+    uses: camelotls/actions-thycotic-ss-integration@v1
     with:
     json_in: |
       {
@@ -40,14 +40,14 @@ Please refer to the Thycotic Secret Server API before using this action.
       
   - name: Get secret
     id: get_secret
-    uses: actions/actions-thycotic-ss-integration@v1
+    uses: camelotls/actions-thycotic-ss-integration@v1
     with:
     json_in: |
     {
       "params": {
         "api_username": "${{ secrets.THYCOTIC_APPLICATION_USER }}",
         "api_password": "${{ secrets.THYCOTIC_APPLICATION_USER_PASSWORD }}",
-        "api_method": "get_secret_field",
+        "api_method": "get_secret",
         "secret_id": "1234"
       }
     }
@@ -58,7 +58,7 @@ Please refer to the Thycotic Secret Server API before using this action.
 
   - name: Create folder
     id: create_folder
-    uses: actions/actions-thycotic-ss-integration@v1
+    uses: camelotls/actions-thycotic-ss-integration@v1
     with:
     json_in: |
       {
