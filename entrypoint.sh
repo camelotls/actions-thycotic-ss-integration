@@ -2,9 +2,8 @@
 
 echo "Query SS"
 
-THYCOTIC_SERVER_URL="https://camelotglobal.secretservercloud.eu"
-
 # Parse json_in params
+THYCOTIC_SERVER_URL=$(echo "$1" | jq -r .params.api_url)
 API_USERNAME=$(echo "$1" | jq -r .params.api_username)
 API_PASSWORD=$(echo "$1" | jq -r .params.api_password)
 API_METHOD=$(echo "$1" | jq -r .params.api_method)

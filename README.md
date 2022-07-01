@@ -26,6 +26,7 @@ Please refer to the Thycotic Secret Server API before using this action.
     json_in: |
       {
         "params": {
+          "api_url": "https://ORG.secretservercloud.eu",
           "api_username": "${{ secrets.THYCOTIC_APPLICATION_USER }}",
           "api_password": "${{ secrets.THYCOTIC_APPLICATION_USER_PASSWORD }}",
           "api_method": "get_secret_field",
@@ -45,6 +46,7 @@ Please refer to the Thycotic Secret Server API before using this action.
     json_in: |
     {
       "params": {
+        "api_url": "https://ORG.secretservercloud.eu",
         "api_username": "${{ secrets.THYCOTIC_APPLICATION_USER }}",
         "api_password": "${{ secrets.THYCOTIC_APPLICATION_USER_PASSWORD }}",
         "api_method": "get_secret",
@@ -63,6 +65,7 @@ Please refer to the Thycotic Secret Server API before using this action.
     json_in: |
       {
         "params": {
+          "api_url": "https://ORG.secretservercloud.eu",
           "api_username": "${{ secrets.THYCOTIC_APPLICATION_USER }}",
           "api_password": "${{ secrets.THYCOTIC_APPLICATION_USER_PASSWORD }}",
           "api_method": "create_folder",
