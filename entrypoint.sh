@@ -99,6 +99,8 @@ case "$API_METHOD" in
     else
       # Request successful
       echo "Successful request: $RESPONSE_CODE"
+      # Mask output secret
+      echo "::add-mask::$(cat response.txt | jq -r .)"
       # Return result as output param
       echo "::set-output name=json_out::'$(cat response.txt | jq -c .)'"
       rm response.txt && exit 0
@@ -142,6 +144,11 @@ case "$API_METHOD" in
     else
       # Request successful
       echo "Successful request: $RESPONSE_CODE"
+      # Iterate over items and get itemValue and mask it
+      cat response.txt | jq -c .items | jq -r .[].itemValue | while read SECRET_FIELD
+      do
+        echo "::add-mask::$SECRET_FIELD"
+      done
       # Return result as output param
       echo "::set-output name=json_out::'$(cat response.txt | jq -c .)'"
       rm response.txt && exit 0
