@@ -114,7 +114,7 @@ case "$API_METHOD" in
     # Create payload file
     echo "$1" | jq -r .params.payload > payload.json
     # Handle status code
-    RESPONSE_CODE=$(curl -s -o response.txt -w "%{http_code}" -XPUT -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" "$URI")
+    RESPONSE_CODE=$(curl -s -o response.txt -w "%{http_code}" -XPUT -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d @payload.json "$URI")
     if [[ $RESPONSE_CODE != "200" ]]
     then
       # Request failed
