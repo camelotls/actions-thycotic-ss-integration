@@ -193,6 +193,39 @@ case "$API_METHOD" in
     fi
     ;;
 
+  search_secret_id)
+    # Folder name to search for
+    SECRET_FOLDER=$(echo "$1" | jq -r .params.secret_folder)
+    # Secret name to search for
+    SECRET_NAME=$(echo "$1" | jq -r .params.secret_name)
+    URI_FOLDERS="$THYCOTIC_SERVER_URL/api/v1/folders?filter.searchText=${SECRET_FOLDER}"
+    # Get folder id
+    RESPONSE_CODE_FOLDER=$(curl -s -o response.txt -w "%{http_code}" -XGET -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" "$URI_FOLDERS")
+    if [[ $RESPONSE_CODE_FOLDER != "200" ]]
+    then
+      # Request failed
+      echo "Failed to find folder $SECRET_FOLDER"
+      cat response.txt && rm response.txt && exit 1
+    else
+      # Request successful
+      echo "Successful request: $RESPONSE_CODE_FOLDER"
+      # Store folder id
+      SECRET_FOLDER_ID=$(cat response.txt | jq '.records[0].id')
+      URI_SECRETS="$THYCOTIC_SERVER_URL/api/v1/secrets?filter.folderId=${SECRET_FOLDER_ID}&filter.searchtext=${SECRET_NAME}&filter.isExactMatch=true"
+      RESPONSE_CODE_SECRET=$(curl -s -o response_secret.txt -w "%{http_code}" -XGET -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" "$URI_SECRETS")
+      if [[ $RESPONSE_CODE_SECRET != "200" ]]
+      then
+        # Request failed
+        echo "Failed to find secret $SECRET_NAME in folder $SECRET_FOLDER"
+        cat response_secret.txt && rm response_secret.txt && exit 1
+      else
+        # Return result as output param
+        echo "::set-output name=json_out::$(cat response_secret.txt | jq -r '.records[0].id')"
+      rm response.txt && rm response_secret.txt && exit 0
+      fi
+    fi
+    ;;
+
   *)
     echo "{ \"msg\": \"API_METHOD undefined or unknown\", \"code:\" \"502\" }" > response.txt
     echo "::set-output name=json_out::$(cat response.txt)"
