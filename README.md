@@ -21,7 +21,7 @@ Please refer to the Thycotic Secret Server API before using this action.
 ```yaml
   - name: Get secret field
     id: get_secret_field
-    uses: camelotls/actions-thycotic-ss-integration@v1
+    uses: camelotls/actions-thycotic-ss-integration@v2
     with:
     json_in: |
       {
@@ -41,7 +41,7 @@ Please refer to the Thycotic Secret Server API before using this action.
       
   - name: Get secret
     id: get_secret
-    uses: camelotls/actions-thycotic-ss-integration@v1
+    uses: camelotls/actions-thycotic-ss-integration@v2
     with:
     json_in: |
     {
@@ -60,7 +60,7 @@ Please refer to the Thycotic Secret Server API before using this action.
 
   - name: Create folder
     id: create_folder
-    uses: camelotls/actions-thycotic-ss-integration@v1
+    uses: camelotls/actions-thycotic-ss-integration@v2
     with:
     json_in: |
       {
@@ -79,5 +79,26 @@ Please refer to the Thycotic Secret Server API before using this action.
   - name: Print create_folder response
     run: |
       echo "Response is: "
-      echo ${{ steps.create_folder.outputs.json_out }} | jq .  
+      echo ${{ steps.create_folder.outputs.json_out }} | jq .
+ 
+  - name: Search for secret id
+    id: search_secret_id
+    uses: camelotls/actions-thycotic-ss-integration@v2
+    with:
+    json_in: |
+      {
+        "params": {
+          "api_url": "https://camelotglobal.secretservercloud.eu",
+          "api_username": "${{ secrets.THYCOTIC_K8S_USER }}",
+          "api_password": "${{ secrets.THYCOTIC_K8S_PASSWORD }}",
+          "api_method": "search_secret_id",
+          "secret_folder": "cluster_name",
+          "secret_name": "admin.conf",
+          "secret_field": "password"
+        }
+      }
+  - name: Print search_secret_id  response
+    run: |
+      echo "Response is: "
+      echo ${{ steps.search_secret_id.outputs.json_out }} | jq .
 ```
