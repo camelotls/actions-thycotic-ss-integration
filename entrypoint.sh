@@ -154,6 +154,49 @@ case "$API_METHOD" in
     fi
     ;;
 
+   get_secrets)
+      # Get QUERY_SECRETS as a map of secret_key: secret_id
+      # e.g.:
+      #{
+      #  "my_secret1": "1127",
+      #  "my_secret2": "1128",
+      #  "my_secret3": "1129"
+      #}
+      echo "{" >> secrets.json
+      QUERY_SECRETS=$(echo "$1" | jq -r .params.query_secrets)
+      # Iterate over each secret and query via secret_id using Thycotic URL
+      echo "$QUERY_SECRETS" | jq 'keys' | jq -r .[] | while read SECRET_KEY
+      do
+        SECRET_ID=$(echo $QUERY_SECRETS | jq -r '.'$SECRET_KEY'')
+        URI="$THYCOTIC_SERVER_URL/api/v2/secrets/${SECRET_ID}"
+        # Handle status code
+        RESPONSE_CODE=$(curl -s -o response.txt -w "%{http_code}" -XGET -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" "$URI")
+        if [[ $RESPONSE_CODE != "200" ]]
+        then
+          # Request failed
+          echo "Request failed: $RESPONSE_CODE"
+          cat response.txt && rm response.txt && exit 1
+        else
+          # Request successful
+          echo "Successful request: $RESPONSE_CODE"
+          # Iterate over items and get itemValue and mask it
+          cat response.txt | jq -c .items | jq -r .[].itemValue | while read SECRET_FIELD
+          do
+            echo "::add-mask::$SECRET_FIELD"
+          done
+          # Write result into file
+          echo "\"$SECRET_KEY\":$(cat response.txt)," >> secrets.json
+          rm response.txt
+        fi
+      done
+      # Remove last comma
+      sed -i '$ s/.$//' secrets.json
+      # Write the end of json file
+      echo "}" >> secrets.json
+      echo "::set-output name=json_out::'$(cat secrets.json | jq -c)'"
+      rm secrets.json && exit 0
+      ;;
+
   # https://camelotglobal.secretservercloud.eu/RestApiDocs.ashx?doc=token-help#operation/SecretTemplatesService_GetTemplates
   get_secret_templates)
     URI="$THYCOTIC_SERVER_URL/api/v1/templates"
