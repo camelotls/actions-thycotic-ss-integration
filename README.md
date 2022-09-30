@@ -21,7 +21,7 @@ Please refer to the Thycotic Secret Server API before using this action.
 ```yaml
   - name: Get secret field
     id: get_secret_field
-    uses: camelotls/actions-thycotic-ss-integration@v2
+    uses: camelotls/actions-thycotic-ss-integration@v3
     with:
     json_in: |
       {
@@ -60,7 +60,7 @@ Please refer to the Thycotic Secret Server API before using this action.
 
   - name: Create folder
     id: create_folder
-    uses: camelotls/actions-thycotic-ss-integration@v2
+    uses: camelotls/actions-thycotic-ss-integration@v3
     with:
     json_in: |
       {
@@ -83,14 +83,14 @@ Please refer to the Thycotic Secret Server API before using this action.
  
   - name: Search for secret id
     id: search_secret_id
-    uses: camelotls/actions-thycotic-ss-integration@v2
+    uses: camelotls/actions-thycotic-ss-integration@v3
     with:
     json_in: |
       {
         "params": {
           "api_url": "https://camelotglobal.secretservercloud.eu",
-          "api_username": "${{ secrets.THYCOTIC_K8S_USER }}",
-          "api_password": "${{ secrets.THYCOTIC_K8S_PASSWORD }}",
+          "api_username": "${{ secrets.THYCOTIC_APPLICATION_USER }}",
+          "api_password": "${{ secrets.THYCOTIC_APPLICATION_USER_PASSWORD }}",
           "api_method": "search_secret_id",
           "secret_folder": "cluster_name",
           "secret_name": "admin.conf",
@@ -101,4 +101,28 @@ Please refer to the Thycotic Secret Server API before using this action.
     run: |
       echo "Response is: "
       echo ${{ steps.search_secret_id.outputs.json_out }} | jq .
+
+  - name: Get bulk secrets from Thycotic
+    id: get_test_secrets
+    uses: camelotls/actions-thycotic-ss-integration@v3
+    with:
+      json_in: |
+        {
+          "params": {
+            "api_url": "https://camelotglobal.secretservercloud.eu",
+            "api_username": "${{ secrets.THYCOTIC_APPLICATION_USER }}",
+            "api_password": "${{ secrets.THYCOTIC_APPLICATION_USER_PASSWORD }}",
+            "api_method": "get_secrets",
+            "query_secrets": {
+              "my_secret1": "1111",
+              "my_secret2": "2222",
+              "my_secret3": "3333"
+             }
+          }
+        }
+
+  - name: Test outputs
+    run: |
+      echo "Let's get a value of \"Password\" field for my_secret1:"
+      echo ${{ steps.get_test_secrets.outputs.json_out }} | jq '.my_secret1' | jq '.items[] | select(.fieldName == "Password") | .itemValue' | jq -r .  
 ```
