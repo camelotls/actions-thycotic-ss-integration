@@ -87,6 +87,7 @@ case "$API_METHOD" in
   get_secret_field)
     SECRET_ID=$(echo "$1" | jq -r .params.secret_id)
     SECRET_FIELD=$(echo "$1" | jq -r .params.secret_field)
+    IS_FILE=$(echo "$1" | jq -r .params.is_file)
     URI="$THYCOTIC_SERVER_URL/api/v1/secrets/${SECRET_ID}/fields/$SECRET_FIELD"
     # Handle status code
     RESPONSE_CODE=$(curl -s -o response.txt -w "%{http_code}" -XGET -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" "$URI")
@@ -99,9 +100,20 @@ case "$API_METHOD" in
       # Request successful
       echo "Successful request: $RESPONSE_CODE"
       # Mask output secret
-      echo "::add-mask::$(cat response.txt | jq -r .)"
-      # Return result as output param
-      echo "::set-output name=json_out::'$(cat response.txt | jq -c .)'"
+      if [ "$IS_FILE" == "true" ]; then
+         echo "::add-mask::$(cat response.txt)"
+       #  echo "::add-mask::$(cat response.txt|base64 -w 0)"
+       #  # If the field is a file attachment,
+       #  # the response body will be the file contents in base64 to handle multiline contents.
+       #  echo "json_out=$(cat response.txt|base64 -w 0))" >> $GITHUB_OUTPUT
+         echo 'json_out<<EOF' >> $GITHUB_OUTPUT
+         cat response.txt >> $GITHUB_OUTPUT
+         echo 'EOF' >> $GITHUB_OUTPUT
+      else
+         echo "::add-mask::$(cat response.txt | jq -r .)"
+         # Return result as output param without the quotes that are added by thycotic.
+         echo "::set-output name=json_out::$(cat response.txt | jq -c .)"
+      fi
       rm response.txt && exit 0
     fi
     ;;
