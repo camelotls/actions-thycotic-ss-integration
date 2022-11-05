@@ -39,7 +39,7 @@ case "$API_METHOD" in
       # Request successful
       echo "Successful request: $RESPONSE_CODE"
       # Return result as output param
-      echo "::set-output name=json_out::'$(cat response.txt | jq -c .)'"
+      echo "json_out='$(cat response.txt | jq -c .)'" >> $GITHUB_OUTPUT
       rm response.txt && exit 0
     fi
     ;;
@@ -58,7 +58,7 @@ case "$API_METHOD" in
       # Request successful
       echo "Successful request: $RESPONSE_CODE"
       # Return result as output param
-      echo "::set-output name=json_out::'$(cat response.txt | jq -c .)'"
+      echo "json_out='$(cat response.txt | jq -c .)'" >> $GITHUB_OUTPUT
       rm response.txt && exit 0
     fi
     ;;
@@ -78,7 +78,7 @@ case "$API_METHOD" in
       # Request successful
       echo "Successful request: $RESPONSE_CODE"
       # Return result as output param
-      echo "::set-output name=json_out::'$(cat response.txt | jq -c .)'"
+      echo "json_out='$(cat response.txt | jq -c .)'" >> $GITHUB_OUTPUT
       rm response.txt && exit 0
     fi
     ;;
@@ -102,17 +102,15 @@ case "$API_METHOD" in
       # Mask output secret
       if [ "$IS_FILE" == "true" ]; then
          echo "::add-mask::$(cat response.txt)"
-       #  echo "::add-mask::$(cat response.txt|base64 -w 0)"
-       #  # If the field is a file attachment,
-       #  # the response body will be the file contents in base64 to handle multiline contents.
-       #  echo "json_out=$(cat response.txt|base64 -w 0))" >> $GITHUB_OUTPUT
+         # If the field is a file attachment, the response body will be the file contents.
+         # set multi-line output.
          echo 'json_out<<EOF' >> $GITHUB_OUTPUT
          cat response.txt >> $GITHUB_OUTPUT
          echo 'EOF' >> $GITHUB_OUTPUT
       else
          echo "::add-mask::$(cat response.txt | jq -r .)"
          # Return result as output param without the quotes that are added by thycotic.
-         echo "::set-output name=json_out::$(cat response.txt | jq -c .)"
+         echo "json_out=$(cat response.txt | jq -c .)" >> $GITHUB_OUTPUT
       fi
       rm response.txt && exit 0
     fi
@@ -136,7 +134,7 @@ case "$API_METHOD" in
       # Request successful
       echo "Successful request: $RESPONSE_CODE"
       # Return result as output param
-      echo "::set-output name=json_out::'$(cat response.txt | jq -c .)'"
+      echo "json_out='$(cat response.txt | jq -c .)'" >> $GITHUB_OUTPUT
       rm response.txt && exit 0
     fi
     ;;
@@ -161,7 +159,7 @@ case "$API_METHOD" in
         echo "::add-mask::$SECRET_FIELD"
       done
       # Return result as output param
-      echo "::set-output name=json_out::'$(cat response.txt | jq -c .)'"
+      echo "json_out='$(cat response.txt | jq -c .)'" >> $GITHUB_OUTPUT
       rm response.txt && exit 0
     fi
     ;;
@@ -205,7 +203,7 @@ case "$API_METHOD" in
       sed -i '$ s/.$//' secrets.json
       # Write the end of json file
       echo "}" >> secrets.json
-      echo "::set-output name=json_out::'$(cat secrets.json | jq -c)'"
+      echo "json_out='$(cat response.txt | jq -c .)'" >> $GITHUB_OUTPUT
       rm secrets.json && exit 0
       ;;
 
@@ -223,7 +221,7 @@ case "$API_METHOD" in
       # Request successful
       echo "Successful request: $RESPONSE_CODE"
       # Return result as output param
-      echo "::set-output name=json_out::'$(cat response.txt | jq -c .)'"
+      echo "json_out='$(cat response.txt | jq -c .)'" >> $GITHUB_OUTPUT
       rm response.txt && exit 0
     fi
     ;;
@@ -243,7 +241,7 @@ case "$API_METHOD" in
       # Request successful
       echo "Successful request: $RESPONSE_CODE"
       # Return result as output param
-      echo "::set-output name=json_out::'$(cat response.txt | jq -c .)'"
+      echo "json_out='$(cat response.txt | jq -c .)'" >> $GITHUB_OUTPUT
       rm response.txt && exit 0
     fi
     ;;
@@ -275,7 +273,7 @@ case "$API_METHOD" in
         cat response_secret.txt && rm response_secret.txt && exit 1
       else
         # Return result as output param
-        echo "::set-output name=json_out::$(cat response_secret.txt | jq -r '.records[0].id')"
+        echo "json_out=$(cat response_secret.txt | jq -r '.records[0].id')" >> $GITHUB_OUTPUT
       rm response.txt && rm response_secret.txt && exit 0
       fi
     fi
@@ -283,7 +281,7 @@ case "$API_METHOD" in
 
   *)
     echo "{ \"msg\": \"API_METHOD undefined or unknown\", \"code:\" \"502\" }" > response.txt
-    echo "::set-output name=json_out::$(cat response.txt)"
+    echo "json_out=$(cat response.txt)" >> $GITHUB_OUTPUT
     rm response.txt && exit 1
     ;;
 
