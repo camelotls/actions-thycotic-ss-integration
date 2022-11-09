@@ -7,6 +7,32 @@ This action is a wrapper against Thycotic Secret Server API.
 ## `json_in`
 
 **Required** Thycotic Secret Server input params.
+`json_in` example:
+```{
+  "params": {
+    "api_url": "https://ORG.secretservercloud.eu",
+    "api_username": "${{ secrets.THYCOTIC_APPLICATION_USER }}",
+    "api_password": "${{ secrets.THYCOTIC_APPLICATION_USER_PASSWORD }}",
+    "api_method": "get_secret_field",
+    "secret_id": "1234",
+    "secret_field": "password"
+  }
+}
+```
+The api_method:`get_secret_field` supports file attachments. To return the file's contents of a thycotic secret, add the `"is_file":true` to the json_in params.
+for example example:
+```{
+  "params": {
+    "api_url": "https://ORG.secretservercloud.eu",
+    "api_username": "${{ secrets.THYCOTIC_APPLICATION_USER }}",
+    "api_password": "${{ secrets.THYCOTIC_APPLICATION_USER_PASSWORD }}",
+    "api_method": "get_secret_field",
+    "secret_id": "1234",
+    "secret_field": "file-secret",
+    "is_file":true
+  }
+}
+```
 
 ## Outputs
 
