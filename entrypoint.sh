@@ -101,12 +101,13 @@ case "$API_METHOD" in
       echo "Successful request: $RESPONSE_CODE"
       # Mask output secret
       if [ "$IS_FILE" == "true" ]; then
-         echo "::add-mask::$(cat response.txt)"
+         # As Github has unpredictable behavior working with multiline files
+         # we need to encode the file into base64
+         cat response.txt | base64 -w0 > response.b64
+         echo "::add-mask::$(cat response.b64)"
          # If the field is a file attachment, the response body will be the file contents.
-         # set multi-line output.
-         echo 'json_out<<EOF' >> $GITHUB_OUTPUT
-         cat response.txt >> $GITHUB_OUTPUT
-         echo 'EOF' >> $GITHUB_OUTPUT
+         echo "json_out=$(cat response.b64)" >> $GITHUB_OUTPUT
+         rm response.b64
       else
          echo "::add-mask::$(cat response.txt | jq -r .)"
          # Return result as output param without the quotes that are added by thycotic.
