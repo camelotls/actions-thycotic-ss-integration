@@ -205,7 +205,7 @@ case "$API_METHOD" in
       sed -i '$ s/.$//' secrets.json
       # Write the end of json file
       echo "}" >> secrets.json
-      echo "json_out='$(cat response.txt | jq -c .)'" >> $GITHUB_OUTPUT
+      echo "json_out='$(cat secrets.json | jq -c .)'" >> $GITHUB_OUTPUT
       rm secrets.json && exit 0
       ;;
 
