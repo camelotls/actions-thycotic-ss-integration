@@ -105,7 +105,6 @@ case "$API_METHOD" in
          # we need to encode the file into base64
          cat response.txt | base64 -w0 > response.b64
          echo "::add-mask::$(cat response.b64)"
-         echo "::add-mask::$(cat response.txt)"
          # If the field is a file attachment, the response body will be the file contents.
          echo "json_out=$(cat response.b64)" >> $GITHUB_OUTPUT
          rm response.b64
