@@ -109,7 +109,10 @@ case "$API_METHOD" in
          echo "json_out=$(cat response.b64)" >> $GITHUB_OUTPUT
          rm response.b64
       else
-         echo "::add-mask::$(cat response.txt | jq -r .)"
+         cat response.txt | jq -r . | while read MULTI_LINE
+         do
+           echo "::add-mask::$MULTI_LINE"
+         done
          # Return result as output param without the quotes that are added by thycotic.
          echo "json_out=$(cat response.txt | jq -c .)" >> $GITHUB_OUTPUT
       fi
