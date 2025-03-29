@@ -55,9 +55,8 @@ try:
             sys.exit(1)
         if _fs is not None:
             # use repr to keep newlines
-            _out = "secretval" + "=" + _fs
-            print(repr(_out))
-        break
+            print("secret" + str(index + 1) + "=" + _fs)
+
 
 except Exception as _e:
     print(f"Fatal error: {str(_e)}")
