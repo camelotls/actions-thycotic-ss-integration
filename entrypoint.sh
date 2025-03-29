@@ -2,6 +2,8 @@
 
 echo "Query SS"
 
-/entrypoint.py "$1" "$2" "$3" "$4" "$5" >> "$GITHUB_OUTPUT"
+res=$(/entrypoint.py "$1" "$2" "$3" "$4" "$5")
 
-cat "$GITHUB_OUTPUT"
+echo "$res"
+echo "$res" >> "$GITHUB_OUTPUT"
+
