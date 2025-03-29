@@ -24,12 +24,12 @@ inputs:
       4567:private-key:DATABASE_SERVER_PRIVATE_KEY
       ```
       required: false
-  runs:
-    using: 'docker'
-    image: 'Dockerfile'
-    args:
-      - ${{ inputs.url }}
-      - ${{ inputs.username }}
-      - ${{ inputs.password }}
-      - ${{ inputs.method }}
-      - ${{ inputs.secrets }}
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.url }}
+    - ${{ inputs.username }}
+    - ${{ inputs.password }}
+    - ${{ inputs.method }}
+    - ${{ inputs.secrets }}
