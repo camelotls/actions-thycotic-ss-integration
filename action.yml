@@ -12,54 +12,54 @@ inputs:
   password:
     description: Password for authenticating to the secret server
     required: true
-  get_secret_1:
+  get-secret-1:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
-  get_secret_2:
+  get-secret-2:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
-  get_secret_3:
+  get-secret-3:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
-  get_secret_4:
+  get-secret-4:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
-  get_secret_5:
+  get-secret-5:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
-  get_secret_6:
+  get-secret-6:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
-  get_secret_7:
+  get-secret-7:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
-  get_secret_8:
+  get-secret-8:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
 outputs:
-  secret_1:
+  secret-1:
     description: Retrieved secret value
-  secret_2:
+  secret-2:
     description: Retrieved secret value
-  secret_3:
+  secret-3:
     description: Retrieved secret value
-  secret_4:
+  secret-4:
     description: Retrieved secret value
-  secret_5:
+  secret-5:
     description: Retrieved secret value
-  secret_6:
+  secret-6:
     description: Retrieved secret value
-  secret_7:
+  secret-7:
     description: Retrieved secret value
-  secret_8:
+  secret-8:
     description: Retrieved secret value
 runs:
   using: 'docker'
@@ -68,11 +68,11 @@ runs:
     - ${{ inputs.url }}
     - ${{ inputs.username }}
     - ${{ inputs.password }}
-    - ${{ inputs.get_secret_1 }}
-    - ${{ inputs.get_secret_2 }}
-    - ${{ inputs.get_secret_3 }}
-    - ${{ inputs.get_secret_4 }}
-    - ${{ inputs.get_secret_5 }}
-    - ${{ inputs.get_secret_6 }}
-    - ${{ inputs.get_secret_7 }}
-    - ${{ inputs.get_secret_8 }}
+    - ${{ inputs.get-secret-1 }}
+    - ${{ inputs.get-secret-2 }}
+    - ${{ inputs.get-secret-3 }}
+    - ${{ inputs.get-secret-4 }}
+    - ${{ inputs.get-secret-5 }}
+    - ${{ inputs.get-secret-6 }}
+    - ${{ inputs.get-secret-7 }}
+    - ${{ inputs.get-secret-8 }}
