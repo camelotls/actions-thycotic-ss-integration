@@ -8,6 +8,8 @@ from delinea.secrets.server import (
 )
 from requests import Response
 
+print(sys.argv)
+
 if len(sys.argv) != 6:
     print("incorrect arguments, expected: url, username, password, method, secrets", file=sys.stderr)
     sys.exit(1)
