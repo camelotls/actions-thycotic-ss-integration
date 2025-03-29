@@ -57,7 +57,7 @@ try:
                 sys.exit(1)
             if _fs is not None:
                 # use repr to keep newlines
-                _output.write("secret" + str(index + 1) + "=" + repr(_fs) + "\n")
+                _output.write("secret" + str(index + 1) + "=" + _fs + "\n")
                 _output.flush()
 
 except Exception as _e:
