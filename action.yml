@@ -12,54 +12,54 @@ inputs:
   password:
     description: Password for authenticating to the secret server
     required: true
-  getsecret1:
+  get_ss_field_1:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
-  getsecret2:
+  get_ss_field_2:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
-  getsecret3:
+  get_ss_field_3:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
-  getsecret4:
+  get_ss_field_4:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
-  getsecret5:
+  get_ss_field_5:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
-  getsecret6:
+  get_ss_field_6:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
-  getsecret7:
+  get_ss_field_7:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
-  getsecret8:
+  get_ss_field_8:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
 outputs:
-  secretval:
+  ss_field_1:
     description: Retrieved secret value
-  secret2:
+  ss_field_2:
     description: Retrieved secret value
-  secret3:
+  ss_field_3:
     description: Retrieved secret value
-  secret4:
+  ss_field_4:
     description: Retrieved secret value
-  secret5:
+  ss_field_5:
     description: Retrieved secret value
-  secret6:
+  ss_field_6:
     description: Retrieved secret value
-  secret7:
+  ss_field_7:
     description: Retrieved secret value
-  secret8:
+  ss_field_8:
     description: Retrieved secret value
 runs:
   using: 'docker'
@@ -68,11 +68,11 @@ runs:
     - ${{ inputs.url }}
     - ${{ inputs.username }}
     - ${{ inputs.password }}
-    - ${{ inputs.getsecret1 }}
-    - ${{ inputs.getsecret2 }}
-    - ${{ inputs.getsecret3 }}
-    - ${{ inputs.getsecret4 }}
-    - ${{ inputs.getsecret5 }}
-    - ${{ inputs.getsecret6 }}
-    - ${{ inputs.getsecret7 }}
-    - ${{ inputs.getsecret8 }}
+    - ${{ inputs.get_ss_field_1 }}
+    - ${{ inputs.get_ss_field_2 }}
+    - ${{ inputs.get_ss_field_3 }}
+    - ${{ inputs.get_ss_field_4 }}
+    - ${{ inputs.get_ss_field_5 }}
+    - ${{ inputs.get_ss_field_6 }}
+    - ${{ inputs.get_ss_field_7 }}
+    - ${{ inputs.get_ss_field_8 }}
