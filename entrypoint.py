@@ -57,7 +57,8 @@ try:
                 sys.exit(1)
             if _fs is not None:
                 # use repr to keep newlines
-                _output.write("ss_field_" + str(index + 1) + "=::add-mask::" + _fs + "\n")
+                _output.write("::add-mask::" + _fs)
+                _output.write("ss_field_" + str(index + 1) + "=" + _fs + "\n")
                 _output.flush()
 
 except Exception as _e:
