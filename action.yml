@@ -13,35 +13,35 @@ inputs:
     description: Password for authenticating to the secret server
     required: true
   get_secret_1:
-    description: "Secret in the format <SECRET_ID>:<SECRET_FIELD>"
+    description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
   get_secret_2:
-    description: "Secret in the format <SECRET_ID>:<SECRET_FIELD>"
+    description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
   get_secret_3:
-    description: "Secret in the format <SECRET_ID>:<SECRET_FIELD>"
+    description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
   get_secret_4:
-    description: "Secret in the format <SECRET_ID>:<SECRET_FIELD>"
+    description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
   get_secret_5:
-    description: "Secret in the format <SECRET_ID>:<SECRET_FIELD>"
+    description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
   get_secret_6:
-    description: "Secret in the format <SECRET_ID>:<SECRET_FIELD>"
+    description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
   get_secret_7:
-    description: "Secret in the format <SECRET_ID>:<SECRET_FIELD>"
+    description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
   get_secret_8:
-    description: "Secret in the format <SECRET_ID>:<SECRET_FIELD>"
+    description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
 runs:
