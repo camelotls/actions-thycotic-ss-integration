@@ -43,6 +43,8 @@ try:
     AUTHORIZER = PasswordGrantAuthorizer(URL, USERNAME, PASSWORD)
     if METHOD == "get":
         for s in SECRETS.split("\n"):
+            if s.strip() == "":
+                continue
             _res = s.split(":")
             if len(_res) != 3:
                 print(f"invalid argument {s}", file=sys.stderr)
