@@ -3,14 +3,33 @@
 name: 'Thycotic SS integration'
 description: 'Secret management using Thycotic SS API'
 inputs:
-  json_in:
-    description: 'Secret server input params in json format'
-    required: false
-outputs:
-  json_out:
-    description: 'Secret server json result'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.json_in }}
+  url:
+    description: The url of the secret server
+    required: true
+  username:
+    description: Username for authenticating to the secret server
+    required: true
+  password:
+    description: Password for authenticating to the secret server
+    required: true
+  method:
+    description: Method to use
+    required: true
+  secrets:
+    description: |-
+      New-line-separated list of secrets in the format <SECRET_ID>:<SECRET_FIELD>:<ALIAS>, for example
+      ```
+      1234:password:WEB_SERVER_PASSWORD
+      1234:notes:WEB_SERVER_NOTES
+      4567:private-key:DATABASE_SERVER_PRIVATE_KEY
+      ```
+      required: false
+  runs:
+    using: 'docker'
+    image: 'Dockerfile'
+    args:
+      - ${{ inputs.url }}
+      - ${{ inputs.username }}
+      - ${{ inputs.password }}
+      - ${{ inputs.method }}
+      - ${{ inputs.secrets }}
