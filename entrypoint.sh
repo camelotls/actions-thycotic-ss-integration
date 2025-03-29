@@ -1,6 +1,6 @@
 #!/bin/bash
 
-/entrypoint.py "$@" >> "$GITHUB_OUTPUT"
+/entrypoint.py "$GITHUB_OUTPUT" "$@"
 
 echo "hello=1" >> "$GITHUB_OUTPUT"
 
