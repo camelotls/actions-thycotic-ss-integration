@@ -2,4 +2,4 @@
 
 echo "Query SS"
 
-./entrypoint.py >> $GITHUB_OUTPUT
+/entrypoint.py >> $GITHUB_OUTPUT
