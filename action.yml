@@ -68,11 +68,11 @@ runs:
     - ${{ inputs.url }}
     - ${{ inputs.username }}
     - ${{ inputs.password }}
-    - ${{ inputs.getsecret1 }}
-    - ${{ inputs.getsecret2 }}
-    - ${{ inputs.getsecret3 }}
-    - ${{ inputs.getsecret4 }}
-    - ${{ inputs.getsecret5 }}
-    - ${{ inputs.getsecret6 }}
-    - ${{ inputs.getsecret7 }}
-    - ${{ inputs.getsecret8 }}
+    - ${{ inputs.secret1 }}
+    - ${{ inputs.secret2 }}
+    - ${{ inputs.secret3 }}
+    - ${{ inputs.secret4 }}
+    - ${{ inputs.secret5 }}
+    - ${{ inputs.secret6 }}
+    - ${{ inputs.secret7 }}
+    - ${{ inputs.secret8 }}
