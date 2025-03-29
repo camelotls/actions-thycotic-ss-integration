@@ -44,24 +44,24 @@ inputs:
     description: "Secret in the format <SECRET_ID>/<SECRET_FIELD>"
     required: false
     default: ""
+outputs:
+  secret_1:
+    description: Retrieved secret value
+  secret_2:
+    description: Retrieved secret value
+  secret_3:
+    description: Retrieved secret value
+  secret_4:
+    description: Retrieved secret value
+  secret_5:
+    description: Retrieved secret value
+  secret_6:
+    description: Retrieved secret value
+  secret_7:
+    description: Retrieved secret value
+  secret_8:
+    description: Retrieved secret value
 runs:
-  outputs:
-    secret_1:
-      description: Retrieved secret value
-    secret_2:
-      description: Retrieved secret value
-    secret_3:
-      description: Retrieved secret value
-    secret_4:
-      description: Retrieved secret value
-    secret_5:
-      description: Retrieved secret value
-    secret_6:
-      description: Retrieved secret value
-    secret_7:
-      description: Retrieved secret value
-    secret_8:
-      description: Retrieved secret value
   using: 'docker'
   image: 'Dockerfile'
   args:
