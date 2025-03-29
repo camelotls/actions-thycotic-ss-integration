@@ -55,7 +55,7 @@ try:
             sys.exit(1)
         if _fs is not None:
             # use repr to keep newlines
-            _out = "secret_" + str(index + 1) + "=" + _fs
+            _out = "secret_" + str(index + 1) + "='" + _fs + "'"
             print(repr(_out))
 
 except Exception as _e:
