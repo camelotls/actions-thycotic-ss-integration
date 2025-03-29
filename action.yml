@@ -45,7 +45,7 @@ inputs:
     required: false
     default: ""
 outputs:
-  secret1:
+  secretval:
     description: Retrieved secret value
   secret2:
     description: Retrieved secret value
