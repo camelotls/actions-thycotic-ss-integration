@@ -4,8 +4,7 @@
 
 echo "hello=1" >> "$GITHUB_OUTPUT"
 
-cat "$GITHUB_OUTPUT"
-
+cat -v "$GITHUB_OUTPUT"
 
 exit 0
 
