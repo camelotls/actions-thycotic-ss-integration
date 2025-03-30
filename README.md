@@ -15,7 +15,7 @@ This action is a wrapper against Thycotic (Delinea) Secret Server API for retrie
 
 ### get_secrets
 
-**Required**; A new-line-separated list of secrets in one of the below formats
+A new-line-separated list of secrets in one of the below formats
 
 ```text
 <ALIAS>:<SECRET_ID>:<SECRET_FIELD>
@@ -49,6 +49,21 @@ the above example retrieves:
 ```
 
 `get_secrets` is compatible with single-line fields, multi-line fields, and files/attachments alike.
+
+### update_secret_id
+
+Secret id to update.<br>
+An update will take place only if `update_secrete_field` is provided as well.
+
+### update_secret_field
+
+The field of the secret to update.
+
+### update_secret_value
+
+Value to set the field to.<br>
+**NB** It is possible for the value of the field to be cleared if the secret template allows this.
+
 
 ## Outputs
 
@@ -85,4 +100,13 @@ steps:
       deploy \
         --api_key ${{ steps.secrets.outputs.PROD_API_KEY }} \
         --enc_key ${{ steps.secrets.outputs.PROD_ENCRYPTION_KEY }}
+  - name: "Update database password"
+    uses: camelotls/actions-thycotic-ss-integration@v8
+    with:
+      url: https://ORG.secretservercloud.eu
+      username: ${{ secrets.SECRET_SERVER_USERNAME }}
+      password: ${{ secrets.SECRET_SERVER_PASSWORD }}
+      update_secret_id: 456
+      update_secret_field: password
+      update_secret_value: H0pefullyAg00d0n3!
 ```

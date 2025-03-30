@@ -14,7 +14,20 @@ inputs:
     required: true
   get_secrets:
     description: "A new-line-separated list of secrets in one of the formats"
-    required: true
+    required: false
+    default: ""
+  update_secret_id:
+    description: "secret id to update"
+    required: false
+    default: ""
+  update_secret_field:
+    description: "the field of the secret to update"
+    required: false
+    default: ""
+  update_secret_value:
+    description: "value to set the field to"
+    required: false
+    default: ""
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -23,3 +36,6 @@ runs:
     - ${{ inputs.username }}
     - ${{ inputs.password }}
     - ${{ inputs.get_secrets }}
+    - ${{ inputs.update_secret_id }}
+    - ${{ inputs.update_secret_field }}
+    - ${{ inputs.update_secret_value }}

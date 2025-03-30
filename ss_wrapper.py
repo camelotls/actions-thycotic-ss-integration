@@ -19,11 +19,15 @@ SS_USERNAME = os.getenv("SS_USERNAME", None)
 SS_PASSWORD = os.getenv("SS_PASSWORD", None)
 GITHUB_OUTPUT = ""
 GET_SECRETS = ""
-
+UPDATE_SECRET_ID = ""
+UPDATE_SECRET_FIELD = ""
+UPDATE_SECRET_VALUE = ""
 
 def _read_args():
-    global SS_URL, SS_USERNAME, SS_PASSWORD, GITHUB_OUTPUT, GET_SECRETS
-    long_args = ["gh_out=", "url=", "user=", "pwd=", "get_secrets="]
+    global SS_URL, SS_USERNAME, SS_PASSWORD, GITHUB_OUTPUT
+    global GET_SECRETS, UPDATE_SECRET_ID, UPDATE_SECRET_FIELD, UPDATE_SECRET_VALUE
+    long_args = ["gh_out=", "url=", "user=", "pwd=", "get_secrets=",
+                 "update_secret_id=", "update_secret_field=", "update_secret_value="]
     try:
         opts, args = getopt.getopt(sys.argv[1:], "", long_args)
     except getopt.GetoptError as e:
@@ -40,6 +44,19 @@ def _read_args():
             GITHUB_OUTPUT = a
         elif o == "--get_secrets":
             GET_SECRETS = a
+        elif o == "--update_secret_id":
+            UPDATE_SECRET_ID = a
+        elif o == "--update_secret_field":
+            UPDATE_SECRET_FIELD = a
+        elif o == "--update_secret_value":
+            UPDATE_SECRET_VALUE = a
+
+def _github_action_update_secret_field():
+    if UPDATE_SECRET_VALUE == "":
+        print(f"WARNING: updating secret {UPDATE_SECRET_ID} field {UPDATE_SECRET_FIELD} with an empty string")
+    if not update_secret_field(UPDATE_SECRET_ID, UPDATE_SECRET_FIELD, UPDATE_SECRET_VALUE):
+        print(f"error updating secret {UPDATE_SECRET_ID} field {UPDATE_SECRET_FIELD}")
+        sys.exit(1)
 
 def _github_action_get_secrets():
     with open(GITHUB_OUTPUT, "w") as _output:
@@ -155,11 +172,19 @@ def get_secret_templates():
     resp = _get("/api/v1/templates")
     return resp.json() if resp is not None and resp.status_code == 200 else {}
 
-def create_folder():
-    # existed in the original implementation, it's not used anywhere, and arguably it should not be implemented
-    pass
+def update_secret_field(secret_id, secret_field, secret_value):
+    headers = {
+        "Authorization": "Bearer " + token(),
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "value": secret_value
+    }
+    url = "{}/api/v1/secrets/{}/fields/{}".format(SS_URL, secret_id, secret_field)
+    resp = requests.put(url, headers=headers, json=payload)
+    return resp.status_code == 200
 
-def update_secret_field():
+def create_folder():
     # existed in the original implementation, it's not used anywhere, and arguably it should not be implemented
     pass
 
@@ -181,6 +206,8 @@ if GITHUB_OUTPUT != "":
     try:
         if GET_SECRETS != "":
             _github_action_get_secrets()
+        if UPDATE_SECRET_ID != "" and UPDATE_SECRET_FIELD != "":
+            _github_action_update_secret_field()
     except Exception as _e:
         print(f"Fatal error: {str(_e)}")
         sys.exit(1)
