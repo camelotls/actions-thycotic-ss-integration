@@ -16,6 +16,10 @@ inputs:
     description: "A new-line-separated list of secrets in one of the formats"
     required: false
     default: ""
+  delimiter:
+    description: "delimiter to use when parsing get_secrets"
+    required: false
+    default: ":"
   update_secret_id:
     description: "secret id to update"
     required: false
@@ -39,3 +43,4 @@ runs:
     - ${{ inputs.update_secret_id }}
     - ${{ inputs.update_secret_field }}
     - ${{ inputs.update_secret_value }}
+    - ${{ inputs.delimiter }}

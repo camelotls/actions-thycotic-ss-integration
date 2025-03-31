@@ -50,6 +50,21 @@ the above example retrieves:
 
 `get_secrets` is compatible with single-line fields, multi-line fields, and files/attachments alike.
 
+### delimiter
+
+The above example is using the default delimiter `:` for the fields of each get_secrets line.<br>
+If required, the `delimiter` parameter can be used to provide an alternative delimiter.
+For example, this could be needed if the default delimiter `:` appears in secret names.
+**NB** No matter the choice of delimiter, care must be taken so the chosen one is used consistently
+across all `get_secrets` lines.
+
+```yaml
+get_secrets: |-
+    DATABASE_PASSWORD:;:12345:;:password
+    DATABASE_USERNAME:;:12345:;:username
+delimiter: ":;:"
+```
+
 ### update_secret_id
 
 Secret id to update.<br>
@@ -82,10 +97,11 @@ steps:
       username: ${{ secrets.SECRET_SERVER_USERNAME }}
       password: ${{ secrets.SECRET_SERVER_PASSWORD }}
       get_secrets: |
-        PROD_API_KEY:123:password
-        DB_PASSWORD:456:password
-        SSH_KEY:789:private-key
-        PROD_ENCRYPTION_KEY:production_credentials:encryption_key:apikey
+        PROD_API_KEY::123::password
+        DB_PASSWORD::456::password
+        SSH_KEY::789::private-key
+        PROD_ENCRYPTION_KEY::production_credentials::encryption_key::apikey
+      delimiter: "::"
   - name: "Setup ssh-agent"
     uses: webfactory/ssh-agent@v0.9.0
     with:

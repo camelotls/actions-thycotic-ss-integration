@@ -22,12 +22,13 @@ GET_SECRETS = ""
 UPDATE_SECRET_ID = ""
 UPDATE_SECRET_FIELD = ""
 UPDATE_SECRET_VALUE = ""
+DELIMITER = ":"
 
 def _read_args():
     global SS_URL, SS_USERNAME, SS_PASSWORD, GITHUB_OUTPUT
-    global GET_SECRETS, UPDATE_SECRET_ID, UPDATE_SECRET_FIELD, UPDATE_SECRET_VALUE
+    global GET_SECRETS, UPDATE_SECRET_ID, UPDATE_SECRET_FIELD, UPDATE_SECRET_VALUE, DELIMITER
     long_args = ["gh_out=", "url=", "user=", "pwd=", "get_secrets=",
-                 "update_secret_id=", "update_secret_field=", "update_secret_value="]
+                 "update_secret_id=", "update_secret_field=", "update_secret_value=", "delimiter="]
     try:
         opts, args = getopt.getopt(sys.argv[1:], "", long_args)
     except getopt.GetoptError as e:
@@ -50,6 +51,8 @@ def _read_args():
             UPDATE_SECRET_FIELD = a
         elif o == "--update_secret_value":
             UPDATE_SECRET_VALUE = a
+        elif o == "--delimiter":
+            DELIMITER = a
 
 def _github_action_update_secret_field():
     if UPDATE_SECRET_VALUE == "":
@@ -63,7 +66,7 @@ def _github_action_get_secrets():
         for s in GET_SECRETS.split("\n"):
             if s.strip() == "":
                 continue
-            _res = s.split(":")
+            _res = s.split(DELIMITER)
             if len(_res) == 3:
                 _alias, _secret_id, _secret_field = _res
                 _value, _msg = get_secret_field(int(_secret_id), _secret_field)
@@ -83,11 +86,11 @@ def _github_action_get_secrets():
             else:
                 # multi-line outputs need to be specified in a different format
                 # we also need to mask the lines one by one
-                _output.write(_alias + "<<EOF\n")
+                _output.write(_alias + "<<EOFEOFEOF\n")
                 for l in lines:
                     print("::add-mask::" + l)
                     _output.write(l + "\n")
-                _output.write("EOF\n")
+                _output.write("EOFEOFEOF\n")
             _output.flush()
 
 def _get(uri):
