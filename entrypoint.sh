@@ -255,6 +255,7 @@ case "$API_METHOD" in
     SECRET_FOLDER=$(echo "$1" | jq -r .params.secret_folder)
     # Secret name to search for
     SECRET_NAME=$(echo "$1" | jq -r .params.secret_name)
+    INCLUDE_SUB_FOLDERS=$(echo "$1" | jq -r '.params?.include_sub_folders // false')
     URI_FOLDERS="$THYCOTIC_SERVER_URL/api/v1/folders?filter.searchText=${SECRET_FOLDER}"
     # Get folder id
     RESPONSE_CODE_FOLDER=$(curl -s -o response.txt -w "%{http_code}" -XGET -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" "$URI_FOLDERS")
@@ -268,7 +269,7 @@ case "$API_METHOD" in
       echo "Successful request: $RESPONSE_CODE_FOLDER"
       # Store folder id
       SECRET_FOLDER_ID=$(cat response.txt | jq '.records[0].id')
-      URI_SECRETS="$THYCOTIC_SERVER_URL/api/v1/secrets?filter.folderId=${SECRET_FOLDER_ID}&filter.searchtext=${SECRET_NAME}&filter.isExactMatch=true"
+      URI_SECRETS="$THYCOTIC_SERVER_URL/api/v1/secrets?filter.folderId=${SECRET_FOLDER_ID}&filter.searchtext=${SECRET_NAME}&filter.isExactMatch=true&filter.includeSubFolders=${INCLUDE_SUB_FOLDERS}"
       RESPONSE_CODE_SECRET=$(curl -s -o response_secret.txt -w "%{http_code}" -XGET -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" "$URI_SECRETS")
       if [[ $RESPONSE_CODE_SECRET != "200" ]]
       then
