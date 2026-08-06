@@ -22,7 +22,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout
-        uses: camelotls/github-workflows/.github/actions/checkout-with-hash@main
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Log in to container registry
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
