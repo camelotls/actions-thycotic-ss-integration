@@ -11,6 +11,6 @@ outputs:
     description: 'Secret server json result'
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'docker://ghcr.io/camelotls/actions-thycotic-ss-integration:v7'
   args:
     - ${{ inputs.json_in }}
