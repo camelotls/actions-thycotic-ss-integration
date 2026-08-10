@@ -9,8 +9,25 @@ inputs:
 outputs:
   json_out:
     description: 'Secret server json result'
+    value: ${{ steps.run.outputs.json_out }}
 runs:
-  using: 'docker'
-  image: 'docker://ghcr.io/camelotls/actions-thycotic-ss-integration:v7.1.1'
-  args:
-    - ${{ inputs.json_in }}
+  using: 'composite'
+  steps:
+    - name: Run Thycotic action image
+      id: run
+      shell: bash
+      env:
+        GHCR_TOKEN: ${{ github.token }}
+        GHCR_USERNAME: ${{ github.actor }}
+        JSON_IN: ${{ inputs.json_in }}
+      run: |
+        docker_config="${RUNNER_TEMP}/.docker-actions-thycotic-ss-integration"
+        mkdir -p "$docker_config"
+        export DOCKER_CONFIG="$docker_config"
+        trap 'rm -rf "$docker_config"' EXIT
+        echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USERNAME" --password-stdin
+        docker run --rm \
+          -e GITHUB_OUTPUT="$GITHUB_OUTPUT" \
+          -v "$(dirname "$GITHUB_OUTPUT"):$(dirname "$GITHUB_OUTPUT")" \
+          ghcr.io/camelotls/actions-thycotic-ss-integration:v7.1.1 \
+          "$JSON_IN"
